@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         reg=(Button)findViewById(R.id.register);
         username=(EditText)findViewById(R.id.username);
         pass=(EditText)findViewById(R.id.password);
-        //DatabaseHandler db=new DatabaseHandler(getApplicationContext());
+        DatabaseHandler db=new DatabaseHandler(getApplicationContext());
         //currentuser=db.activeUser();
         if(currentuser.length()>0){
             Intent i=new Intent(MainActivity.this,Welcome.class);
