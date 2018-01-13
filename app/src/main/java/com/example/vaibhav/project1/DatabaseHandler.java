@@ -35,9 +35,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 +USERNAME + " TEXT PRIMARY KEY, "
                 +PASS + " TEXT, "
                 +ACTIVE +" TEXT, "
-                +TOTAL_QUIZ +" NUMBER, "
-                +TOTAL_SCORE +" NUMBER, "
-                +AVG_SCORE +" NUMBER)";
+                +TOTAL_QUIZ +" TEXT, "
+                +TOTAL_SCORE +" TEXT, "
+                +AVG_SCORE +" TEXT)";
         Log.d("Table creating : ",CREATE_ITEM_TABLE);
         db.execSQL(CREATE_ITEM_TABLE);
     }
@@ -70,10 +70,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(NAME, nm);
         values.put(USERNAME,unm);
         values.put(PASS, pwd);
-        values.put(ACTIVE, "N");
-        values.put(TOTAL_QUIZ, 0);
-        values.put(TOTAL_SCORE, 0);
-        values.put(AVG_SCORE, 0);
+       // values.put(ACTIVE, "N");
+       values.put(TOTAL_QUIZ, "0");
+        values.put(TOTAL_SCORE, "0");
+        values.put(AVG_SCORE, "0");
         db.insert(TABLE_NAME,null,values);
         db.close();
         Log.d("REGISTERED SUCCESSFULLY",unm);
@@ -88,9 +88,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         try {
             if (c.moveToFirst()) {
                 //db.execSQL("UPDATE "+TABLE_NAME+" SET "+ACTIVE+" = 'Y' WHERE "+USERNAME+" = "+unm);
-                ContentValues values = new ContentValues();
-                values.put(ACTIVE, "Y");
-                db.update(TABLE_NAME,values," USERNAME = ?",new String[]{unm});
+               // ContentValues values = new ContentValues();
+                //values.put(ACTIVE, "Y");
+                //db.update(TABLE_NAME,values," USERNAME = ?",new String[]{unm});
                 c.close();
                 db.close();
                 Log.d("VERIFIED ",unm);
@@ -101,7 +101,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         return false;
     }
-    public String activeUser()
+  /*  public String activeUser()
     {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE "+ACTIVE+"='Y'";
@@ -118,6 +118,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         } catch (SQLException e) {
             return "";
         }
-    }
+    }*/
 }
 
