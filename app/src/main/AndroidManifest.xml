@@ -20,17 +20,27 @@
         </activity>
         <activity
             android:name=".AboutActivity"
-            android:label="About Us"></activity>
+            android:label="About Us" />
         <activity
             android:name=".Register"
-            android:label="Create a new account"></activity>
+            android:label="Create a new account" />
         <activity
             android:name=".Welcome"
             android:label="QUIZ"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfileActivity"
-            android:label="My Profile"></activity>
+            android:label="My Profile" />
+        <activity
+            android:name=".ScienceQ"
+            android:label="QUIZ" />
+        <activity
+            android:name=".CurrentAffairsQ"
+            android:label="QUIZ" />
+        <activity
+            android:name=".AptituteQ"
+            android:label="QUIZ" />
+        <activity android:name=".NewUser"></activity>
     </application>
 
 </manifest>

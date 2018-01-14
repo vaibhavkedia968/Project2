@@ -2,10 +2,13 @@ package com.example.vaibhav.project1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 
 public class Welcome extends AppCompatActivity {
     Spinner category;
@@ -23,6 +28,7 @@ public class Welcome extends AppCompatActivity {
     boolean cat;
     TextView wu;
     int timelimit=60;
+    int selected;
     String[] c={"Select your category","Aptitude","Science","Current Affairs"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +38,12 @@ public class Welcome extends AppCompatActivity {
         setSupportActionBar(toolbar);
         category=(Spinner)findViewById(R.id.category);
         go=(Button)findViewById(R.id.cont);
-        wu=(TextView)findViewById(R.id.welcomeuser);
-        Bundle b=getIntent().getExtras();
-        wu.setText("WELCOME "+b.getString("username"));
-        MainActivity.currentuser=b.getString("username");
         loadCategory();
 
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selected=position;
                 if (position > 0)
                 {
                     cat=true;
@@ -86,28 +89,23 @@ public class Welcome extends AppCompatActivity {
         switch(id)
         {
             case R.id.myprofile:
-                Toast.makeText(getApplication(),"My Profile",Toast.LENGTH_SHORT).show();
                 myProfile();
                 break;
 
             case R.id.signout:
-                Toast.makeText(getApplication(),"Sign Out",Toast.LENGTH_SHORT).show();
                 signout();
                 break;
 
             case R.id.about:
-                Toast.makeText(getApplication(),"About",Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(Welcome.this,AboutActivity.class);
                 startActivity(i);
                 break;
 
             case R.id.contact:
-                Toast.makeText(getApplication(),"Contact Us",Toast.LENGTH_SHORT).show();
                 contact();
                 break;
 
             case R.id.exit:
-                Toast.makeText(getApplication(),"Exit",Toast.LENGTH_SHORT).show();
                 exit();
                 break;
         }
@@ -134,8 +132,10 @@ public class Welcome extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent j=new Intent(Welcome.this,MainActivity.class);
-                        MainActivity.currentuser="";
+                        DatabaseHandler db=new DatabaseHandler(getApplicationContext());
+                        db.signOut(MainActivity.currentuser);
                         startActivity(j);
+                        MainActivity.currentuser="";
                         finish();
                     }
                 });
@@ -167,7 +167,7 @@ public class Welcome extends AppCompatActivity {
     public void contact()
     {
         AlertDialog.Builder b=new AlertDialog.Builder(this);
-        b.setMessage("here we can give our number/email or\nopen an activity providing our details.")
+        b.setMessage("You can email us your queries :\nquizcom@gmail.com")
                 .setCancelable(true)
                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -197,7 +197,7 @@ public class Welcome extends AppCompatActivity {
     public void cont()
     {
         AlertDialog.Builder b=new AlertDialog.Builder(this);
-        b.setMessage("Once started, you'll have only "+timelimit+" seconds to complete your quiz.")
+        b.setMessage("")
                 .setCancelable(false)
                 .setPositiveButton("No", new DialogInterface.OnClickListener() {
                     @Override
@@ -208,7 +208,23 @@ public class Welcome extends AppCompatActivity {
                 .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Can't connect right now.", Toast.LENGTH_LONG).show();
+                        switch(selected)
+                        {
+                            case 1:
+                                Intent i1=new Intent(Welcome.this,AptituteQ.class);
+                                startActivity(i1);
+                                break;
+
+                            case 2:
+                                Intent i2=new Intent(Welcome.this,ScienceQ.class);
+                                startActivity(i2);
+                                break;
+
+                            case 3:
+                                Intent i3=new Intent(Welcome.this,CurrentAffairsQ.class);
+                                startActivity(i3);
+                                break;
+                        }
                     }
                 });
         AlertDialog a= b.create();
